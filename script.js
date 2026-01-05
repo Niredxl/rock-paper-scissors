@@ -26,8 +26,8 @@ function getHumanChoice(){
 function play_round(computer_choice, user_choice){
     computer_choice = computer_choice.toLowerCase();
     user_choice = user_choice.toLowerCase();
-    console.log(computer_choice + user_choice);
 
+    console.log("You pick " + user_choice + "\n computer picks " + computer_choice);
     let winner = 0;
 
     if (computer_choice.localeCompare(user_choice) === 0){
@@ -37,11 +37,9 @@ function play_round(computer_choice, user_choice){
     else if ("rock".localeCompare(user_choice) === 0){
 
         if ("paper".localeCompare(computer_choice) === 0){
-            console.log("f");
             winner = 2;
         }
         else if ("scissors".localeCompare(computer_choice) === 0){
-            console.log("f");
             winner = 1;
         }
     }
@@ -51,7 +49,7 @@ function play_round(computer_choice, user_choice){
             winner = 2;
         }
         else if ("rock".localeCompare(computer_choice) == 0){
-            winner = 1;
+            winner = 1 ;
         }
     }
     // user picks scissors
@@ -75,12 +73,31 @@ function play_round(computer_choice, user_choice){
             break;
         case 2:
             computerScore++; 
-            console.log(user_choice + " beats " + computer_choice + ", you win.")
+            console.log(computer_choice + " beats " + user_choice + ", computer wins.")
             break;
     }
 }
-    
-let x = (getHumanChoice());
-let y = (getComputerChoice());
 
-play_round(y,x);
+
+function playGame(){
+    let roundCount = 0;
+    while (roundCount < 5){
+        console.log(roundCount + 1);
+        let user_choice = getHumanChoice();
+        let computer_choice = getComputerChoice();
+        play_round(computer_choice, user_choice);
+        roundCount++;
+        console.log("your score : " + humanScore + ", computer score: " + computerScore);
+    }
+    if (humanScore > computerScore){
+        console.log("You win");
+    }
+    else if (computerScore > humanScore){
+        console.log("Computer wins");
+    }
+    else {
+        console.log("DRAW");
+    }
+}
+
+playGame();
