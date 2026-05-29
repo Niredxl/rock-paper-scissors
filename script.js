@@ -18,16 +18,15 @@ function getComputerChoice(){
 
 }
 
-function getHumanChoice(){
-    let user_choice = prompt("enter your choice: \n rock \n paper \n scisssors");
-    return user_choice;
-}
-
 function play_round(computer_choice, user_choice){
+    const prompt = document.querySelector("#prompt");
+    const result = document.querySelector("#result");
+    result_text = "";
+    prompt.textContent = "You picked " +  user_choice + " Computer picked " + computer_choice; 
+
     computer_choice = computer_choice.toLowerCase();
     user_choice = user_choice.toLowerCase();
 
-    console.log("You pick " + user_choice + "\n computer picks " + computer_choice);
     let winner = 0;
 
     if (computer_choice.localeCompare(user_choice) === 0){
@@ -65,39 +64,67 @@ function play_round(computer_choice, user_choice){
 
     switch (winner){
         case 0:
-            console.log("Its a draw.")
+            result_text = ("Its a draw.")
             break;
         case 1:
             humanScore++;
-            console.log(user_choice + " beats " + computer_choice + ", you win.")
+            result_text = (user_choice + " beats " + computer_choice + ", you win.")
             break;
         case 2:
             computerScore++; 
-            console.log(computer_choice + " beats " + user_choice + ", computer wins.")
+            result_text = (computer_choice + " beats " + user_choice + ", computer wins.")
             break;
+    }
+    result.textContent = result_text;
+}
+
+function update_score(){
+    const score = document.querySelector("#score");
+    score.textContent = "User Score : " + humanScore + "\t Computer Score: " + computerScore;
+    
+}
+function winner_check(){
+    const score = document.querySelector("#prompt");
+    const winner = document.createElement("div");
+    winner.classList.add("winner");
+    
+    if (humanScore >= 5){
+        winner.textContent = "YOU WIN!!"
+        score.appendChild(winner);
+        humanScore = 0; 
+        computerScore = 0;
+        update_score();
+    }
+    else if (computerScore >= 5){
+        winner.textContent = "COMPUTER WINS"
+        score.appendChild(winner);
+        update_score();
+        humanScore = 0; 
+        computerScore = 0;
+        update_score();
+    }
+    else{
+        return
     }
 }
 
-
 function playGame(){
-    let roundCount = 0;
-    while (roundCount < 5){
-        console.log(roundCount + 1);
-        let user_choice = getHumanChoice();
+    const options = document.querySelector("#options");
+    options.addEventListener('click', (event) => {
+        const isButton = event.target.nodeName  === 'BUTTON';
+        if (!isButton){
+            return;
+        }
+        let user_choice = event.target.id;
         let computer_choice = getComputerChoice();
         play_round(computer_choice, user_choice);
-        roundCount++;
-        console.log("your score : " + humanScore + ", computer score: " + computerScore);
-    }
-    if (humanScore > computerScore){
-        console.log("You win");
-    }
-    else if (computerScore > humanScore){
-        console.log("Computer wins");
-    }
-    else {
-        console.log("DRAW");
-    }
+        update_score();
+        winner_check();
+
+        
+    })
+    
+    
 }
 
 playGame();
